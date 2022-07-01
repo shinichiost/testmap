@@ -8,7 +8,7 @@ public class MainController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        character = CharacterController.instance.gameObject;
+        character = CharacterController.instance.character();
     }
 
     // Update is called once per frame

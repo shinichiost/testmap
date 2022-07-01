@@ -23,7 +23,7 @@ public class CharacterController : MonoBehaviour
     {
         index = 0;
         oj = character();
- 
+        Object.DontDestroyOnLoad(oj);
     }
 
     // Update is called once per frame
@@ -54,8 +54,8 @@ public class CharacterController : MonoBehaviour
         oj = character();
         oj.SetActive(true);
     }
-    private GameObject character()
+    public GameObject character()
     {
-        return gameoj[index];
+        return gameoj[this.index];
     }
 }
