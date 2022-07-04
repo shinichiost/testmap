@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Ground
   - Enermy
+  - foot
   layers:
   - Default
   - TransparentFX

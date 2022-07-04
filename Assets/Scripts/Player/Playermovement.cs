@@ -8,39 +8,45 @@ public class Playermovement : MonoBehaviour
     Transform playermover;
     //jump
     [Range(1f,100f)]
-    private float jumpforce = 5f;
-    private float dbjumpforce = 3f;
+    private float jumpforce = 100f;
+    private float dbjumpforce = 30f;
     private int jumping;
     //move
     [Range(1f, 100f)]
     private float movespeed = 2f;
-    private float move;
-    private bool isfalling = false, isgrounded = false;
+    private float move = 1;
+    private bool isfalling = false, isdead = false, isGrounded = false;
     //animator
     Animator anim;
+    //health
+    int health = 3;
+    public List<GameObject> healthlist = new List<GameObject>();
 
-    // Start is called before the first frame update
     void Start()
     {
         playermover = GetComponent<Transform>();
         rb = gameObject.GetComponent<Rigidbody2D>();
         anim = gameObject.GetComponent<Animator>();
-        jumping = 0;
-        
+
     }
 
-    // Update is called once per frame
+
     void Update()
     {
         movePlayer();
-        if (isgrounded)
+        if (isGrounded)
             jumping = 0;
     }
+    
     public void movePlayer()
     {
         move = Input.GetAxisRaw("Horizontal");
+
         if (move != 0)
-            anim.SetInteger("animationstate", 1);
+        {
+ //           anim.SetInteger("animationstate", 1);
+            transform.localScale = new Vector3(move, 1, 1);
+        }
         playermover.Translate(Vector3.right * move* movespeed * Time.deltaTime);
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W))
         {
@@ -58,16 +64,29 @@ public class Playermovement : MonoBehaviour
     }
     public void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.collider.tag == "Ground")
+        
+        if (collision.collider.tag == "Enermy")
         {
-            isgrounded = true;
+            rb.AddForce(-Vector2.right * move * 10f*Time.deltaTime);
+            health -= 1;
+            if (health >= 0)
+                Destroy(healthlist[health]);
+            else
+            {
+                isdead = true;
+                Debug.Log("You are Dead!");
+            }
         }
+
     }
-    public void OnCollisionExit2D(Collision2D collision)
+
+   
+    public void setJumping(int jump){
+        this.jumping = jump;
+    }
+    public void setGrounded(bool isgrounded)
     {
-        if (collision.collider.tag == "Ground")
-        {
-            isgrounded = false;
-        }
+        this.isGrounded = isgrounded;
     }
+
 }

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Enermies : MonoBehaviour
 {
+    Playermovement playermovement;
     void Start()
     {
         
@@ -13,4 +14,5 @@ public class Enermies : MonoBehaviour
     {
         
     }
+    
 }

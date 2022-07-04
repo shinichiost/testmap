@@ -4,27 +4,36 @@ using UnityEngine;
 
 public class HoaAttack : MonoBehaviour
 {
-    // Start is called before the first frame update
+    [SerializeField] private Transform bulletposition;
+    [SerializeField] private GameObject bulletPrefab;
     void Start()
     {
-        
+     
     }
 
-    // Update is called once per frame
+ 
     void Update()
     {
-        
+        GameObject bullet = ObjectPool.instance.getPooledObject();
+        if (bullet != null)
+        {
+            bullet.transform.position = bulletposition.position;
+            bullet.SetActive(true);
+        }
+        //StartCoroutine(shot());
     }
     IEnumerator shot()
     {
-        yield return new WaitForSeconds(3f);
+        GameObject bullet = ObjectPool.instance.getPooledObject();
+        if(bullet != null)
+        {
+            bullet.transform.position =bulletposition.position;
+            bullet.SetActive(true);
+        }
+        yield return new WaitForSeconds(2.4f);
     }
+   
 }
-[System.Serializable]
-public class Preallocation
-{
-    public GameObject gameObject;
-    public int count;
-    public bool expandable;
-}
+
+
 

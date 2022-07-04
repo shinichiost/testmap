@@ -15,8 +15,9 @@ public class Camerafollow : MonoBehaviour
     }
     public void camerafollow()
     {
-        if (player.transform.position.x < 0)
-            return;
-        transform.position = new Vector3(player.transform.position.x, transform.position.y, transform.position.z);
+        if (player.transform.position.x < 0 )
+        transform.position = new Vector3(transform.position.x, player.transform.position.y, transform.position.z);
+        else
+            transform.position = new Vector3(player.transform.position.x, player.transform.position.y, transform.position.z);
     }
 }

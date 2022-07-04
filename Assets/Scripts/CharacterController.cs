@@ -8,7 +8,7 @@ public class CharacterController : MonoBehaviour
 {
     public static CharacterController instance { get; private set; }
     [Header("Character :")]
-    public List<GameObject> gameoj = new List<GameObject>();
+    [SerializeField]private List<GameObject> gameoj = new List<GameObject>();
     private GameObject oj;
     private int index ;
     public Button btnleft, btnright;
