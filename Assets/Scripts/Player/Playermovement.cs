@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Playermovement : MonoBehaviour
 {
@@ -15,13 +16,14 @@ public class Playermovement : MonoBehaviour
     [Range(1f, 100f)]
     private float movespeed = 2f;
     private float move = 1;
-    private bool isfalling = false, isdead = false, isGrounded = false;
+    [SerializeField]
+    private bool isfalling = false, isGrounded = false;
     //animator
     Animator anim;
     //health
-    int health = 3;
     public List<GameObject> healthlist = new List<GameObject>();
 
+    
     void Start()
     {
         playermover = GetComponent<Transform>();
@@ -62,23 +64,7 @@ public class Playermovement : MonoBehaviour
             isfalling = true;
         }
     }
-    public void OnCollisionEnter2D(Collision2D collision)
-    {
-        
-        if (collision.collider.tag == "Enermy")
-        {
-            rb.AddForce(-Vector2.right * move * 10f*Time.deltaTime);
-            health -= 1;
-            if (health >= 0)
-                Destroy(healthlist[health]);
-            else
-            {
-                isdead = true;
-                Debug.Log("You are Dead!");
-            }
-        }
-
-    }
+   
 
    
     public void setJumping(int jump){
@@ -87,6 +73,28 @@ public class Playermovement : MonoBehaviour
     public void setGrounded(bool isgrounded)
     {
         this.isGrounded = isgrounded;
+    }
+    public void moveleft()
+    {
+        transform.localScale = new Vector3(-1, 1, 1);
+        playermover.Translate(Vector3.right  *-1* movespeed*Time.deltaTime);
+    }
+    public void moveright()
+    {
+        transform.localScale = new Vector3(1, 1, 1);
+        playermover.Translate(Vector3.right * movespeed*Time.deltaTime );
+    }
+    public void jump()
+    {
+        jumping += 1;
+        if (jumping == 1)
+        {
+            rb.AddForce(Vector2.up * jumpforce, ForceMode2D.Impulse);
+        }
+        else if (jumping == 2)
+        {
+            rb.AddForce(Vector2.up * dbjumpforce, ForceMode2D.Impulse);
+        }
     }
 
 }

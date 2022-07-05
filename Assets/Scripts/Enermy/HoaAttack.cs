@@ -6,33 +6,48 @@ public class HoaAttack : MonoBehaviour
 {
     [SerializeField] private Transform bulletposition;
     [SerializeField] private GameObject bulletPrefab;
+    [SerializeField]
+    private bool isdestroyed = false;
+    private float t1 = 0;
+    private float t2 = 2.38f;
     void Start()
     {
-     
+
+        
     }
 
  
     void Update()
     {
-        GameObject bullet = ObjectPool.instance.getPooledObject();
-        if (bullet != null)
-        {
-            bullet.transform.position = bulletposition.position;
-            bullet.SetActive(true);
-        }
-        //StartCoroutine(shot());
+        if(!this.isdestroyed)
+        shot();
     }
-    IEnumerator shot()
+    void shot()
     {
-        GameObject bullet = ObjectPool.instance.getPooledObject();
-        if(bullet != null)
+        if (t1 > t2)
         {
-            bullet.transform.position =bulletposition.position;
-            bullet.SetActive(true);
+            GameObject bullet = ObjectPool.instance.getPooledObject();
+            if (bullet != null)
+            {
+                bullet.transform.position = bulletposition.position;
+                bullet.SetActive(true);
+            }
+            t1 = 0;
         }
-        yield return new WaitForSeconds(2.4f);
+        else
+        {
+            t1 += Time.deltaTime;
+        }
+
     }
-   
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.collider.CompareTag("foot"))
+        {
+            isdestroyed = true;
+        }
+
+    }
 }
 
 

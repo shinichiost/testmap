@@ -5,7 +5,7 @@ using UnityEngine;
 public class CheckHit : MonoBehaviour
 {
     public Playermovement playermovement;
-    GameObject player;
+    Player player;
     void Start()
     {
         
@@ -18,12 +18,14 @@ public class CheckHit : MonoBehaviour
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        var EnermyParent = collision.collider.transform.parent.gameObject;
         if (collision.collider.CompareTag("Ground"))
         {
             playermovement.setGrounded(true) ;
         }
-        if (collision.collider.CompareTag("Enermy"))
+        if (EnermyParent.CompareTag("Enermy"))
         {
+            player.decreaseHealth();
             Destroy(collision.collider);
         }
     }
