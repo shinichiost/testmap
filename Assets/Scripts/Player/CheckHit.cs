@@ -23,7 +23,7 @@ public class CheckHit : MonoBehaviour
         {
             playermovement.setGrounded(true) ;
         }
-        if (EnermyParent.CompareTag("Enermy"))
+        if (EnermyParent.CompareTag("Enermy") || collision.collider.CompareTag("Enermy"))
         {
             player.decreaseHealth();
             Destroy(collision.collider);

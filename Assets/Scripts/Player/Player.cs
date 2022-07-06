@@ -8,48 +8,61 @@ public class Player : MonoBehaviour
     private int health = 3;
     public GameObject[] healthlist = new GameObject[3];
     [SerializeField]
-    private bool isdead = false, win = false;
+    private bool isdead = false, win = false, isfalling = false;
     public List<GameObject> playerlist;
-    private GameObject player ;
     public static Player instance;
-
-    private void Awake()
-    {
-        if(instance == null)
-        {
-            instance = this;
-        }
-    }
+    private Rigidbody2D rb;
+    public GameObject enermy;
+    public GameObject winbanner;
+    public GameObject losebanner;
     void Start()
     {
-        player = getPlayer();
+        rb = GetComponent<Rigidbody2D>();
+        GameObject player = getPlayer();
         player.SetActive(true);
         
     }
-
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
+        if (win) UIManager.instance.showwinbanner(true);
     }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        var EnermyParent = collision.collider.transform.parent.gameObject;
-        if (EnermyParent.CompareTag("Enermy"))
+        if (!collision.collider.CompareTag("Ground"))
         {
-            health -= 1;
-            if (health >= 0)
-                Destroy(healthlist[health]);
+            var EnermyParent = collision.collider.transform.parent.gameObject;
+            if (EnermyParent.CompareTag("Enermy"))
+            {
+                if (rb.velocity.y < 0)
+                {
+                    Destroy(collision.collider);
+                }
+                else
+                {
+                    health -= 1;
+                    if (health >= 0)
+                        Destroy(healthlist[health]);
+                    transform.Translate(-Vector3.right * Input.GetAxis("Horizontal") * 30f * Time.deltaTime);
+                    if (health == 0)
+                        isdead = true;
+                }
 
-            if(health == 0)
-                isdead = true;
+            }
+            if (collision.collider.CompareTag("Cup"))
+                win = true;
         }
-        if (collision.collider.CompareTag("Cup"))
-            win = true;
     }
+
+
+
     public bool getLose()
     {
         return this.isdead;
+    }
+    public void setLose(bool isdead)
+    {
+        this.isdead = isdead;
     }
     public bool getWin()
     {
@@ -63,4 +76,10 @@ public class Player : MonoBehaviour
     {
         this.health += 1;
     }
+    // observer pattern
+    public void Notify()
+    {
+        
+    }
+
 }

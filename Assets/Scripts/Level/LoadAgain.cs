@@ -5,10 +5,10 @@ using UnityEngine.SceneManagement;
 public class LoadAgain : MonoBehaviour
 {
     // Start is called before the first frame update
-    void Start()
+   
+    public void loadagain()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex );
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
-
    
 }

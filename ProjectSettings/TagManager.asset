@@ -8,6 +8,7 @@ TagManager:
   - Enermy
   - foot
   - Cup
+  - DeadZone
   layers:
   - Default
   - TransparentFX

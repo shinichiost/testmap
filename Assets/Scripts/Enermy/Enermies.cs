@@ -2,17 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enermies : MonoBehaviour
+public class Enermies :Observer
 {
-    Playermovement playermovement;
-    void Start()
+    public override void onNotify()
     {
-        
-    }
-
-    void Update()
-    {
-        
+        beDestroyed();
     }
     
+    void beDestroyed()
+    {
+        Destroy(this);
+    }
 }

@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 public class LoadNext : MonoBehaviour
 {
     
-    void Start()
+    public void loadnext()
     {
          SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
 
