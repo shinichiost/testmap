@@ -11,9 +11,10 @@ public class Bullet : MonoBehaviour
     {
         rb.velocity = Vector2.left * speed;
     }
-    private void OnCollisionEnter2D(Collision2D collision)
+   
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Player"))
+        if (collision.CompareTag("Ground") || collision.CompareTag("Player"))
         {
             gameObject.SetActive(false);
         }

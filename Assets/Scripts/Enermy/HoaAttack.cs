@@ -19,8 +19,8 @@ public class HoaAttack : MonoBehaviour
  
     void Update()
     {
-        if(!this.isdestroyed)
-        shot();
+        if(!isdestroyed)
+            shot();
     }
     void shot()
     {
@@ -42,7 +42,7 @@ public class HoaAttack : MonoBehaviour
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.collider.CompareTag("foot"))
+        if (collision.collider.CompareTag("Player") && collision.collider.GetComponent<Rigidbody2D>().velocity.y<0)
         {
             isdestroyed = true;
         }

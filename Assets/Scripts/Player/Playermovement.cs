@@ -15,7 +15,7 @@ public class Playermovement : MonoBehaviour
     private int jumping;
     //move
     [Range(1f, 100f)]
-    private float movespeed = 2f;
+    private float movespeed = 3f;
     private float movem = 1,move = 1;
     [SerializeField]
     private bool isfalling = false, isGrounded = false;
@@ -24,12 +24,13 @@ public class Playermovement : MonoBehaviour
     //health
     public List<GameObject> healthlist = new List<GameObject>();
     public Player player;
+    public GameObject player1;
     private PauseMenu pause;
     void Start()
     {
         playermover = GetComponent<Transform>();
         rb = gameObject.GetComponent<Rigidbody2D>();
-        anim = gameObject.GetComponent<Animator>();
+        anim = player1.GetComponent<Animator>();
 
     }
 
@@ -41,7 +42,7 @@ public class Playermovement : MonoBehaviour
         if (isGrounded)
             jumping = 0;
         if (rb.velocity.y < 0)
-            isfalling = true;
+            anim.SetBool("isfalling", true);
 
     }
 
@@ -49,12 +50,9 @@ public class Playermovement : MonoBehaviour
     {
         if (collision.collider.CompareTag("Ground"))
             isGrounded = true;
-        if (collision.collider.CompareTag("DeadZone"))
-        {
-            Time.timeScale = 0;
-
-        }
+ 
     }
+    
     private void OnCollisionExit2D(Collision2D collision)
     {
         if (collision.collider.CompareTag("Ground"))
@@ -66,7 +64,7 @@ public class Playermovement : MonoBehaviour
 
         if (movem != 0)
         {
-            //           anim.SetInteger("animationstate", 1);
+            anim.SetBool("isrunning", true);
             transform.localScale = new Vector3(movem, 1, 1);
         }
         playermover.Translate(Vector3.right * movem * movespeed * Time.deltaTime);
@@ -82,7 +80,7 @@ public class Playermovement : MonoBehaviour
 
         if (move != 0)
         {
-            //           anim.SetInteger("animationstate", 1);
+            anim.SetBool("isrunning", true);
             transform.localScale = new Vector3(move, 1, 1);
         }
         playermover.Translate(Vector3.right * move * movespeed * Time.deltaTime);

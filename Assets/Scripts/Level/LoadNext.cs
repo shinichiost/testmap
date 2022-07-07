@@ -8,7 +8,6 @@ public class LoadNext : MonoBehaviour
     public void loadnext()
     {
          SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-
     }
 
 }

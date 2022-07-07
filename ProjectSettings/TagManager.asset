@@ -9,6 +9,10 @@ TagManager:
   - foot
   - Cup
   - DeadZone
+  - Ocsen
+  - Tuong
+  - Apple
+  - Bullet
   layers:
   - Default
   - TransparentFX
