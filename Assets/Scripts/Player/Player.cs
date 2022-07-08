@@ -18,9 +18,11 @@ public class Player : MonoBehaviour
     public GameObject losebanner;
     private Animator anim;
     public Text scoretext;
-    void Start()
+    IEnumerator Start()
     {
-        anim = gameObject.GetComponentInChildren<Animator>();
+        yield return null;
+        int index = CharacterSelection.getIndex();
+        anim = gameObject.GetComponentsInChildren<Animator>()[0];
         rb = GetComponent<Rigidbody2D>();
         GameObject player = getPlayer();
         player.SetActive(true);
@@ -34,64 +36,61 @@ public class Player : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (!collision.collider.CompareTag("Ground"))
+        if (collision.collider.tag != "Ground")
         {
-            var EnermyParent = collision.collider.transform.parent.gameObject;
-            if (EnermyParent.CompareTag("Enermy"))
+
+            if (collision.collider.transform.parent.gameObject != null)
             {
-                if (rb.velocity.y < 0)
+                var EnermyParent = collision.collider.transform.parent.gameObject;
+
+                if (EnermyParent.CompareTag("Enermy"))
                 {
-                    if(collision.collider.tag != "Ocsen")
-                        Destroy(collision.collider);
-                    
-                }
-                else
-                {
-                    anim.SetBool("ishitting", true);
-                    health -= 1;
-                    if (health >= 0)
-                        Destroy(healthlist[health]);
-                    float t = 2f;
-                    while (t > 0)
+                    if (rb.velocity.y < 0)
                     {
-                        t -= Time.deltaTime;
-                        transform.Translate(-Vector3.right * Input.GetAxis("Horizontal") *0.2f* Time.deltaTime);
+                        if (collision.collider.tag != "Ocsen")
+                            Destroy(collision.collider);
+
                     }
-                    if (health == 0)
-                        isdead = true;
+                    else
+                    {
+                        decreaseHealth();
+                        
+                        
+                    }
+
                 }
+                if (collision.collider.CompareTag("Cup"))
+                {
+                    win = true;
+                    UIManager.instance.showwinbanner(win);
+                }
+            }
 
-            }
-            if (collision.collider.CompareTag("Cup"))
-            {
-                win = true;
-                UIManager.instance.showwinbanner(win);
-            }
 
-            }
+        }
     }
     void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Ocsen"))
             {
-            anim.SetBool("ishitting", true);
-            health -= 1;
-            if (health >= 0)
-                Destroy(healthlist[health]);
-            transform.Translate(-Vector3.right * Input.GetAxis("Horizontal") * 30f * Time.deltaTime);
-            if (health == 0)
-                UIManager.instance.showlosebanner(isdead);
+            
         }
         if (collision.CompareTag("Apple"))
         {
             score++;
-            Destroy(collision.gameObject);
+            collision.gameObject.SetActive(false);
         }
         if (collision.CompareTag("DeadZone"))
         {
             isdead = true;
             UIManager.instance.showlosebanner(isdead);
         }
+        if(collision.CompareTag("Bullet"))
+        {
+            decreaseHealth();
+            collision.gameObject.SetActive(false);
+        }    
+            
     }
 
 
@@ -109,13 +108,30 @@ public class Player : MonoBehaviour
     }
     public GameObject getPlayer()
     {
-        return playerlist[CharacterSelection.instance.getIndex()];
+        return playerlist[CharacterSelection.getIndex()];
     }
-    public void decreaseHealth()
+    public void increaseHealth()
     {
         this.health += 1;
     }
-    // observer pattern
+    public void decreaseHealth()
+    {
+        anim.Play("player_hit");
+        health -= 1;
+        if (health >= 0)
+            healthlist[health].SetActive(false);
+        //float t = 2f;
+        //while (t > 0)
+        //{
+        //    t -= Time.deltaTime;
+        //    transform.Translate(-Vector3.right * Input.GetAxis("Horizontal") * 0.2f * Time.deltaTime);
+        //}
+        if (health == 0)
+        {
+            isdead = true;
+            UIManager.instance.showlosebanner(isdead);
+        }
+    }
     
 
 }

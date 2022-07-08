@@ -11,8 +11,7 @@ public class CharacterSelection : MonoBehaviour
     [SerializeField]private List<GameObject> gameoj = new List<GameObject>();
     private GameObject oj;
     [SerializeField]
-    private int index ;
-    public Button btnleft, btnright;
+    private static int index ;
     private void Awake()
     {
         
@@ -31,11 +30,9 @@ public class CharacterSelection : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        btnleft.onClick.AddListener(decreaseIndex);
-        btnright.onClick.AddListener(increaseIndex);
 
     }
-    void decreaseIndex()
+    public void decreaseIndex()
     {
         if(index > 0)
             index -= 1;
@@ -45,7 +42,7 @@ public class CharacterSelection : MonoBehaviour
         oj = character();
         oj.SetActive(true);
     }
-    void increaseIndex()
+    public void increaseIndex()
     {
         if (index < gameoj.Count - 1)
             index += 1;
@@ -57,10 +54,10 @@ public class CharacterSelection : MonoBehaviour
     }
     public GameObject character()
     {
-        return gameoj[this.index];
+        return gameoj[index];
     }
-    public int getIndex()
+    public static int getIndex()
     {
-        return this.index;
+        return index;
     }
 }

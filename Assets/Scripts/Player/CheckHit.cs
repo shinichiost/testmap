@@ -25,7 +25,7 @@ public class CheckHit : MonoBehaviour
         }
         if (EnermyParent.CompareTag("Enermy") || collision.collider.CompareTag("Enermy"))
         {
-            player.decreaseHealth();
+            player.increaseHealth();
             Destroy(collision.collider);
         }
     }
